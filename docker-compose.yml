@@ -23,6 +23,7 @@ services:
       - "5432:5432"
     volumes:
       - timescaledb:/var/lib/postgresql/data
+      - ./sql/100_measurements.sql:/docker-entrypoint-initdb.d/100_measurements.sql
 
 volumes:
   timescaledb:
