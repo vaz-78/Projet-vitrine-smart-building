@@ -5,3 +5,25 @@ services:
       - "1883:1883"
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    
+  esphome:
+    image: ghcr.io/esphome/esphome:2026.9.1
+    ports:
+      - "6052:6052"
+    volumes:
+      - ./esphome:/config
+
+  timescaledb:
+    image: timescale/timescaledb:2.30.1-pg17
+    environment:
+      POSTGRES_USER: valfld
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: building_twin
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescaledb:/var/lib/postgresql/data
+
+volumes:
+  timescaledb:
+

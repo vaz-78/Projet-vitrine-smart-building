@@ -1,0 +1,52 @@
+esphome:
+  name: node-01          
+
+esp32:
+  board: esp32dev       
+  framework:
+    type: esp-idf
+
+logger:
+
+api:
+  reboot_timeout: 0s
+
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+mqtt:
+  broker: 192.168.1.74         
+  port: 1883           # le port exposé dans ton compose
+  topic_prefix: bt/home/space-101
+
+sensor:
+  - platform: wifi_signal
+    name: wifi_signal
+    update_interval: 30s
+
+  - platform: uptime
+    name: uptime
+
+  - platform: bme280_i2c
+    address: 0x76
+    temperature:
+      name: temperature
+    pressure:
+      name: pressure
+    humidity:
+      name: humidity
+  
+  - platform: scd4x
+    co2:
+      name: co2
+
+# test
