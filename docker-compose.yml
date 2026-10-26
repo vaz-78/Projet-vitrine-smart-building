@@ -25,6 +25,20 @@ services:
       - timescaledb:/var/lib/postgresql/data
       - ./sql/100_measurements.sql:/docker-entrypoint-initdb.d/100_measurements.sql
 
+  grafana:
+    image: grafana/grafana:13.1.8
+    environment:
+      GF_SECURITY_ADMIN_USER: valfld
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+
 volumes:
   timescaledb:
+  grafana-storage:
 
