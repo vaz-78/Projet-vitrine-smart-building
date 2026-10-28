@@ -37,8 +37,15 @@ services:
       - grafana-storage:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
 
+  nodered:
+    image: nodered/node-red:5.0.9
+    ports: 
+      - "1880:1880"
+    volumes:
+      - node-red-data:/data
 
 volumes:
   timescaledb:
   grafana-storage:
+  node-red-data:
 

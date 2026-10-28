@@ -25,8 +25,8 @@ wifi:
 
 mqtt:
   broker: 192.168.1.74         
-  port: 1883           # le port exposé dans ton compose
-  topic_prefix: bt/home/space-101
+  port: 1883
+  topic_prefix: bt/home/node-01
 
 sensor:
   - platform: wifi_signal
@@ -40,13 +40,15 @@ sensor:
     address: 0x76
     temperature:
       name: temperature
+      state_topic: bt/home/r1-chambre-03/temperature
     pressure:
       name: pressure
+      state_topic: bt/home/r1-chambre-03/pressure
     humidity:
       name: humidity
+      state_topic: bt/home/r1-chambre-03/humidity
   
   - platform: scd4x
     co2:
       name: co2
-
-# test
+      state_topic: bt/home/r1-chambre-03/co2
