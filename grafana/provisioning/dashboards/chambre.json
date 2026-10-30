@@ -4,18 +4,24 @@
   "metadata": {
     "name": "vazr77t",
     "namespace": "default",
-    "uid": "79b07b01-ee6d-4d83-9c84-c0e5405f635e",
-    "resourceVersion": "1793050498938001",
-    "generation": 4,
-    "creationTimestamp": "2026-10-25T22:19:11Z",
+    "uid": "59d7201d-7f22-422a-b006-545ab205b37f",
+    "resourceVersion": "1793399839061991",
+    "generation": 3,
+    "creationTimestamp": "2026-10-30T22:36:19Z",
     "labels": {
-      "grafana.app/deprecatedInternalID": "2293703542992896"
+      "grafana.app/deprecatedInternalID": "4109952556482560"
     },
     "annotations": {
-      "grafana.app/createdBy": "user:fg2bv9wqyp534b",
+      "grafana.app/createdBy": "access-policy:service",
+      "grafana.app/managedBy": "classic-file-provisioning",
+      "grafana.app/managerAllowsEdits": "true",
+      "grafana.app/managerId": "building-twin",
       "grafana.app/saved-from-ui": "Grafana v13.1.8 (59df467025)",
+      "grafana.app/sourceChecksum": "802c1642a05297b695402052c98117ba",
+      "grafana.app/sourcePath": "/etc/grafana/provisioning/dashboards/v2.json",
+      "grafana.app/sourceTimestamp": "1793050586000",
       "grafana.app/updatedBy": "user:fg2bv9wqyp534b",
-      "grafana.app/updatedTimestamp": "2026-10-26T21:34:58Z"
+      "grafana.app/updatedTimestamp": "2026-10-30T22:37:19Z"
     }
   },
   "spec": {
@@ -159,7 +165,7 @@
                       "tooltip": false,
                       "viz": false
                     },
-                    "insertNulls": false,
+                    "insertNulls": 300000,
                     "lineInterpolation": "linear",
                     "lineWidth": 1,
                     "pointSize": 5,
@@ -303,7 +309,7 @@
                       "tooltip": false,
                       "viz": false
                     },
-                    "insertNulls": false,
+                    "insertNulls": 300000,
                     "lineInterpolation": "linear",
                     "lineWidth": 1,
                     "pointSize": 5,
