@@ -4,3 +4,4 @@ __pycache__/
 esphome/secrets.yaml
 esphome/.esphome/
 .env
+commande
