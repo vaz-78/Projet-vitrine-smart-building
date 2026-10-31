@@ -1,0 +1,293 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 330,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "31a031bee8ff1624",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "bt/home/+/co2",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "d5199941427c954b",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 660,
+        "wires": [
+            [
+                "d6be652a9e04f1d0"
+            ]
+        ]
+    },
+    {
+        "id": "3b25f32bdea9ad44",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1460,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "d6be652a9e04f1d0",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "> 1000",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "1000",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "900",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 350,
+        "y": 660,
+        "wires": [
+            [
+                "044aee043b0b504b"
+            ],
+            [
+                "858e375eafca35dd"
+            ]
+        ]
+    },
+    {
+        "id": "044aee043b0b504b",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "Alerte",
+        "rules": [
+            {
+                "t": "set",
+                "p": "co2",
+                "pt": "msg",
+                "to": "msg.payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "piece",
+                "pt": "msg",
+                "to": "$split(topic, \"/\")[2]",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Alerte",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 600,
+        "wires": [
+            [
+                "2d6a5134e298226b"
+            ]
+        ]
+    },
+    {
+        "id": "858e375eafca35dd",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "ok",
+        "rules": [
+            {
+                "t": "set",
+                "p": "co2",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "piece",
+                "pt": "msg",
+                "to": "$split(topic, \"/\")[2]",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "ok",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 720,
+        "wires": [
+            [
+                "2d6a5134e298226b"
+            ]
+        ]
+    },
+    {
+        "id": "2d6a5134e298226b",
+        "type": "rbe",
+        "z": "f6f2187d.f17ca8",
+        "name": "filtrer",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 710,
+        "y": 660,
+        "wires": [
+            [
+                "9010e991f8274a67"
+            ]
+        ]
+    },
+    {
+        "id": "9010e991f8274a67",
+        "type": "template",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload}} CO2 : {{co2}} ppm dans {{piece}}\n",
+        "output": "str",
+        "x": 880,
+        "y": 660,
+        "wires": [
+            [
+                "938ab5b15569a0c5"
+            ]
+        ]
+    },
+    {
+        "id": "938ab5b15569a0c5",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "\"https://ntfy.sh/\" & $env(\"NTFY_TOPIC\")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1080,
+        "y": 660,
+        "wires": [
+            [
+                "680d5fa27c5e0b50"
+            ]
+        ]
+    },
+    {
+        "id": "680d5fa27c5e0b50",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1290,
+        "y": 660,
+        "wires": [
+            [
+                "3b25f32bdea9ad44"
+            ]
+        ]
+    },
+    {
+        "id": "d5199941427c954b",
+        "type": "mqtt-broker",
+        "name": "Mqtt",
+        "broker": "mosquitto:1880",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
