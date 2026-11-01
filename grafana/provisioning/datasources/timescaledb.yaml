@@ -4,11 +4,11 @@ datasources:
     type: grafana-postgresql-datasource
     uid: timescaledb
     url: timescaledb:5432
-    user: valfld
+    user: grafana_reader
     jsonData:
       database: building_twin
       sslmode: disable
       postgresVersion: 1500
       timescaledb: true
     secureJsonData:
-      password: $POSTGRES_PASSWORD
+      password: $POSTGRES_PASSWORD_GRAFANA
