@@ -4,12 +4,12 @@
   "metadata": {
     "name": "vazr77t",
     "namespace": "default",
-    "uid": "59d7201d-7f22-422a-b006-545ab205b37f",
-    "resourceVersion": "1793399839061991",
-    "generation": 3,
-    "creationTimestamp": "2026-10-30T22:36:19Z",
+    "uid": "7fa60cf8-e4cb-4a45-8c28-6b83d229aea6",
+    "resourceVersion": "1793712095538000",
+    "generation": 7,
+    "creationTimestamp": "2026-10-30T22:53:32Z",
     "labels": {
-      "grafana.app/deprecatedInternalID": "4109952556482560"
+      "grafana.app/deprecatedInternalID": "4114285520183296"
     },
     "annotations": {
       "grafana.app/createdBy": "access-policy:service",
@@ -17,11 +17,11 @@
       "grafana.app/managerAllowsEdits": "true",
       "grafana.app/managerId": "building-twin",
       "grafana.app/saved-from-ui": "Grafana v13.1.8 (59df467025)",
-      "grafana.app/sourceChecksum": "802c1642a05297b695402052c98117ba",
-      "grafana.app/sourcePath": "/etc/grafana/provisioning/dashboards/v2.json",
-      "grafana.app/sourceTimestamp": "1793050586000",
+      "grafana.app/sourceChecksum": "e4046acd357f91b6c7c4d69d7f5e6560",
+      "grafana.app/sourcePath": "/etc/grafana/provisioning/dashboards/chambre.json",
+      "grafana.app/sourceTimestamp": "1793399912000",
       "grafana.app/updatedBy": "user:fg2bv9wqyp534b",
-      "grafana.app/updatedTimestamp": "2026-10-30T22:37:19Z"
+      "grafana.app/updatedTimestamp": "2026-11-03T13:21:35Z"
     }
   },
   "spec": {
@@ -75,7 +75,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT ts AS \"time\", value\r\nFROM measurements\r\nWHERE point = 'co2' AND $__timeFilter(ts)\r\nORDER BY ts;",
+                        "rawSql": "SELECT ts AS \"time\", value\r\nFROM measurements\r\nWHERE point = 'co2' \r\n  AND $__timeFilter(ts)\r\n  AND space = '$piece' \r\nORDER BY ts;",
                         "sql": {
                           "columns": [
                             {
@@ -217,7 +217,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT ts AS \"time\", value\r\nFROM measurements\r\nWHERE point = 'temperature' AND $__timeFilter(ts)\r\nORDER BY ts;",
+                        "rawSql": "SELECT ts AS \"time\", value\r\nFROM measurements\r\nWHERE point = 'temperature' \r\n  AND $__timeFilter(ts)\r\n  ANd space = '$piece'\r\nORDER BY ts;",
                         "sql": {
                           "columns": [
                             {
@@ -393,7 +393,63 @@
       "fiscalYearStartMonth": 0
     },
     "title": "Chambre",
-    "variables": [],
+    "variables": [
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "piece",
+          "current": {
+            "text": "r1-chambre-03",
+            "value": "r1-chambre-03"
+          },
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "grafana-postgresql-datasource",
+            "version": "v0",
+            "datasource": {
+              "name": "timescaledb"
+            },
+            "spec": {
+              "dataset": "building_twin",
+              "editorMode": "code",
+              "format": "table",
+              "query": "SELECT DISTINCT space FROM measurements",
+              "rawQuery": true,
+              "rawSql": "SELECT DISTINCT space FROM measurements",
+              "refId": "SQLVariableQueryEditor-VariableQuery",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          },
+          "regex": "",
+          "regexApplyTo": "value",
+          "sort": "disabled",
+          "definition": "SELECT DISTINCT space FROM measurements",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
+      }
+    ],
     "preferences": {
       "layout": {
         "kind": "GridLayout",
