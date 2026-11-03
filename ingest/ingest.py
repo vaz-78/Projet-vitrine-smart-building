@@ -30,7 +30,7 @@ async def inserer(conn, mesure, valeur_valide):
 async def consommateur(queue):
     erreurs = {}
     conn = await asyncpg.connect(
-            host="localhost", port=5432, user="valfld",
+            host=os.environ.get("POSTGRES_HOST", "localhost"), port=5432, user="valfld",
             password=os.environ["POSTGRES_PASSWORD"], database="building_twin",
         )
     logger.info("connexion à la base ouverte")

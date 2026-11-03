@@ -49,5 +49,5 @@ Chaque décision garde le raisonnement : le contexte, le choix, pourquoi, ce qui
 **Écarté** : garder le superutilisateur pour Grafana. C'est plus simple, mais tous les droits restent exposés.
 
 **Conséquences** :
-- `grafana_reader` dans le le depôt du projet. Après un clone ou un `down -v`, il se rajoute à nouveau au docker compose up grâce au script d'init dans `sql/`.
+- 2026-11-03 : grafana_reader ne vit plus seulement dans le volume. Le script d'init sql/200_grafana_reader.sql le recrée au premier docker compose up après un clone ou un down -v, avec le mot de passe lu dans .env (POSTGRES_PASSWORD_GRAFANA, transmis au service timescaledb). Limite : le script ne tourne que sur un volume vide. Sur une base qui a déjà des données, il faut le lancer à la main (psql -f).
 - Le `SELECT` ne porte que sur `measurements`. Si je crée une 2e table, Grafana ne pourra pas la lire tant que je ne lui aurai pas donné un nouveau `GRANT`.

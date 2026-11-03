@@ -1,8 +1,9 @@
 import aiomqtt
+import os
 
 
 async def ecouter(queue):
-    async with aiomqtt.Client("localhost") as client:
+    async with aiomqtt.Client(os.environ.get("MQTT_HOST", "localhost")) as client:
         await client.subscribe("bt/home/+/+")
         async for message in client.messages:
             topic = message.topic.value.split("/")

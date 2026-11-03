@@ -49,6 +49,18 @@ services:
     volumes:
       - node-red-data:/data
 
+
+  ingest:
+    build: ./ingest
+    environment:
+      MQTT_HOST: mosquitto
+      POSTGRES_HOST: timescaledb
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - timescaledb
+      - mosquitto
+
+
 volumes:
   timescaledb:
   grafana-storage:
