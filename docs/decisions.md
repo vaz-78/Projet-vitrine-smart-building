@@ -49,5 +49,5 @@ Chaque décision garde le raisonnement : le contexte, le choix, pourquoi, ce qui
 **Écarté** : garder le superutilisateur pour Grafana. C'est plus simple, mais tous les droits restent exposés.
 
 **Conséquences** :
-- `grafana_reader` ne vit que dans le volume `timescaledb`, pas dans le dépôt. Après un clone ou un `down -v`, il faut le recréer à la main, à moins de l'ajouter en script d'init dans `sql/`.
+- `grafana_reader` dans le le depôt du projet. Après un clone ou un `down -v`, il se rajoute à nouveau au docker compose up grâce au script d'init dans `sql/`.
 - Le `SELECT` ne porte que sur `measurements`. Si je crée une 2e table, Grafana ne pourra pas la lire tant que je ne lui aurai pas donné un nouveau `GRANT`.

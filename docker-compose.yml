@@ -18,12 +18,15 @@ services:
     environment:
       POSTGRES_USER: valfld
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD_GRAFANA: ${POSTGRES_PASSWORD_GRAFANA}
       POSTGRES_DB: building_twin
     ports:
       - "5432:5432"
     volumes:
       - timescaledb:/var/lib/postgresql/data
       - ./sql/100_measurements.sql:/docker-entrypoint-initdb.d/100_measurements.sql
+      - ./sql/200_grafana_reader.sql:/docker-entrypoint-initdb.d/200_grafana_reader.sql
+
 
   grafana:
     image: grafana/grafana:13.1.8
