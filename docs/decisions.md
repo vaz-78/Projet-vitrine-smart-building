@@ -51,3 +51,16 @@ Chaque décision garde le raisonnement : le contexte, le choix, pourquoi, ce qui
 **Conséquences** :
 - 2026-11-03 : grafana_reader ne vit plus seulement dans le volume. Le script d'init sql/200_grafana_reader.sql le recrée au premier docker compose up après un clone ou un down -v, avec le mot de passe lu dans .env (POSTGRES_PASSWORD_GRAFANA, transmis au service timescaledb). Limite : le script ne tourne que sur un volume vide. Sur une base qui a déjà des données, il faut le lancer à la main (psql -f).
 - Le `SELECT` ne porte que sur `measurements`. Si je crée une 2e table, Grafana ne pourra pas la lire tant que je ne lui aurai pas donné un nouveau `GRANT`.
+
+# 2026-11-05 : esphome sans unless-stopped dans le compose
+
+**Contexte** : le « unless-stopped » permet aux différents conteneurs des services d'être relancés automatiquement, peu importe le cas, sauf si c'est moi qui stoppe un ou tous les conteneurs volontairement.
+
+**Décision** : le « unless-stopped » a été appliqué à chaque service, sauf ESPHome.
+
+**Pourquoi** : il n'a pas d'intérêt à rester allumé tout le temps, du fait qu'il ne sert qu'à flasher de temps à autre l'ESP32.
+
+**Écarté** : le mettre aussi en « unless-stopped ».
+
+**Conséquences** : il ne sera jamais relancé automatiquement à chaque démarrage de Docker Desktop.
+

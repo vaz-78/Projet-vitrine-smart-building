@@ -1,6 +1,7 @@
 services:
   mosquitto:
     image: eclipse-mosquitto:2
+    restart: unless-stopped
     ports:
       - "1883:1883"
     volumes:
@@ -15,6 +16,7 @@ services:
 
   timescaledb:
     image: timescale/timescaledb:2.30.1-pg17
+    restart: unless-stopped
     environment:
       POSTGRES_USER: valfld
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -30,6 +32,7 @@ services:
 
   grafana:
     image: grafana/grafana:13.1.8
+    restart: unless-stopped
     environment:
       GF_SECURITY_ADMIN_USER: valfld
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
@@ -42,6 +45,7 @@ services:
 
   nodered:
     image: nodered/node-red:5.0.9
+    restart: unless-stopped
     environment:
       NTFY_TOPIC: ${NTFY_TOPIC}
     ports: 
@@ -52,6 +56,7 @@ services:
 
   ingest:
     build: ./ingest
+    restart: unless-stopped
     environment:
       MQTT_HOST: mosquitto
       POSTGRES_HOST: timescaledb
@@ -61,6 +66,7 @@ services:
       - mosquitto
 
   simulateur:
+    restart: unless-stopped
     build: ./simulateur
     environment:
       MQTT_HOST: mosquitto
