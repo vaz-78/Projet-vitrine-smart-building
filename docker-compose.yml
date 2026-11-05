@@ -60,6 +60,13 @@ services:
       - timescaledb
       - mosquitto
 
+  simulateur:
+    build: ./simulateur
+    environment:
+      MQTT_HOST: mosquitto
+    depends_on:
+      - mosquitto 
+
 
 volumes:
   timescaledb:
