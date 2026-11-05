@@ -4,7 +4,7 @@ import os
 
 async def ecouter(queue):
     async with aiomqtt.Client(os.environ.get("MQTT_HOST", "localhost")) as client:
-        await client.subscribe("bt/home/+/+")
+        await client.subscribe("bt/+/+/+")
         async for message in client.messages:
             topic = message.topic.value.split("/")
             capteur = topic[3]
