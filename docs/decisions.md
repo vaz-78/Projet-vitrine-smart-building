@@ -52,7 +52,7 @@ Chaque décision garde le raisonnement : le contexte, le choix, pourquoi, ce qui
 - 2026-11-03 : grafana_reader ne vit plus seulement dans le volume. Le script d'init sql/200_grafana_reader.sql le recrée au premier docker compose up après un clone ou un down -v, avec le mot de passe lu dans .env (POSTGRES_PASSWORD_GRAFANA, transmis au service timescaledb). Limite : le script ne tourne que sur un volume vide. Sur une base qui a déjà des données, il faut le lancer à la main (psql -f).
 - Le `SELECT` ne porte que sur `measurements`. Si je crée une 2e table, Grafana ne pourra pas la lire tant que je ne lui aurai pas donné un nouveau `GRANT`.
 
-# 2026-11-05 : esphome sans unless-stopped dans le compose
+## 2026-11-05 : esphome sans unless-stopped dans le compose
 
 **Contexte** : le « unless-stopped » permet aux différents conteneurs des services d'être relancés automatiquement, peu importe le cas, sauf si c'est moi qui stoppe un ou tous les conteneurs volontairement.
 
@@ -64,3 +64,17 @@ Chaque décision garde le raisonnement : le contexte, le choix, pourquoi, ce qui
 
 **Conséquences** : il ne sera jamais relancé automatiquement à chaque démarrage de Docker Desktop.
 
+## 2026-11-05 : Node-RED reste seulement abonnée au topic home/ et pas +/
+
+**Contexte** : à la suite de l'ajout du script python du batiment simuler, la question était de savoir si le flow NODE-RED allait maintenant s'abonner aux 2 batiment (monde réel + simulé).
+
+**Décision** : Laisser le flow abonné seulement au topic home/
+
+**Pourquoi** : Cela voudrait dire que je recevrais des alertes sur NTFY, qui ne sont pas réel par moment, ce qui me poursserait à ignorer NTFY complétement.
+
+**Écarté** : le laissé s'aboner aussi à +/.
+
+**Conséquences** : 
+
+- Je ne recevrai pas de  notifs provenant du batiment simulé.
+- le simulé ne permet pas de tester la chaîne d’alerte. Si tu veux un jour tester ntfy sans attendre un vrai pic, il faudra autre chose (un mosquitto_pub à la main sur un topic bt/home, par exemple).
