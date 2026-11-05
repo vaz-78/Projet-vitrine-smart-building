@@ -9,7 +9,10 @@ TOPIC_CO2 = "bt/sim/r0-bureau-01/co2"
 
 CO2_EXTERIEUR = 420        # ppm
 APPORT_PAR_PERSONNE = 10   # ppm par minute
-RENOUVELLEMENT = 0.01      # part de l'écart évacuée par minute
+VOLUME_BUREAU = 12 * 2.5 # m³
+OCCUPANTS_PREVUS = 2
+DEBIT_AIR_NEUF = OCCUPANTS_PREVUS * 25 # m³/h
+RENOUVELLEMENT = DEBIT_AIR_NEUF / VOLUME_BUREAU / 60    # RSDT
 
 def prochain_co2(co2, occupants):
     apport = occupants * APPORT_PAR_PERSONNE
