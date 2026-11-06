@@ -1,6 +1,7 @@
 esphome:
   name: node-01          
 
+
 esp32:
   board: esp32dev       
   framework:
@@ -27,6 +28,7 @@ mqtt:
   broker: 192.168.1.74         
   port: 1883
   topic_prefix: bt/home/node-01
+  log_topic: null
 
 sensor:
   - platform: wifi_signal

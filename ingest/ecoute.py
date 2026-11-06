@@ -11,6 +11,8 @@ async def ecouter(queue):
             building = topic[1]
             space = topic[2]
             mesure = {"building": building, "space": space, "capteur": capteur, "valeur": message.payload.decode()}
-            if capteur == message.retain:
+            if message.retain:
+                continue
+            elif capteur == 'status':
                 continue
             await queue.put(mesure)
